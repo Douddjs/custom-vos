@@ -48,7 +48,7 @@ jobs:
         continue-on-error: true
         run: |
           gh run list -b "${{ github.ref_name }}" -w "${{ github.workflow }}" -s "success" -L 1 --json databaseId > last_run.json
-          echo "LAST_RUN_ID=$(jq -r '.[0].databaseId' last_run.json)" >> "$GITHUB_ENV"
+echo "LAST_RUN_ID=$(jq -r '.[0].databaseId' last_run.json)" >> "$GITHUB_ENV"
 
       - name: Download the previous digest
         uses: actions/download-artifact@v4
