@@ -2,12 +2,12 @@ name: Adhamz Custom VanillaOS with Custom Fonts
 id: douddjs/custom-vos
 stages:
 - id: build
-  base: ghcr.io/vanilla-os/desktop:main # Optionally, Replace this image URL with a different one i.e. nvidia:main, etc
+  base: ghcr.io/vanilla-os/desktop:main
   singlelayer: false
   labels:
-    maintainer: Adham_Ahmad # Optionally, Replace this with your name
+    maintainer: Adham_Ahmad
   args:
-    DEBIAN_FRONTEND: noninteractive # Set the image environment as non-interactive
+    DEBIAN_FRONTEND: noninteractive
   
   # Commands to run first before building the modules
   runs:
@@ -21,26 +21,22 @@ stages:
     - lpkg --unlock
     - apt-get update
 
-  # Put your custom actions below this comment
-
-  - name: example-packages # Sample module using the built-in Apt module to install packages
+  # Custom modules for fonts, themes, and other customizations
+  - name: example-packages
     type: apt
     source:
       packages:
       - vim
 
-  - name: example-commands # Sample module demonstrating the Shell module with custom commands
+  - name: example-commands
     type: shell
     commands:
     - echo Example output
 
-  - name: example-modules # Sample module demonstrating importing local and remote modules
+  - name: example-modules
     type: includes
     includes:
-      - modules/50-install-debs.yml # Sample local module present in this repository
-      # - gh:vanilla-os/dev-image:main:modules/00-basics.yml # Sample GitHub remote module in the format: `gh:your-name/your-repo:branch:modules/file.yml`
-      # - https://raw.githubusercontent.com/Vanilla-OS/dev-image/main/modules/05-go.yml # Sample full URL remote module
-
+      - modules/50-install-debs.yml
 
   - name: system-customizations
     type: shell
@@ -63,7 +59,47 @@ stages:
       - systemctl enable snapd.service
       - systemctl enable snapd.socket
 
-  # Put your custom actions above this comment
+  # DaVinci Resolve dependencies
+  - name: davinci-resolve-deps
+    type: apt
+    description: Install DaVinci Resolve dependencies
+    packages:
+      - libssl1.1
+      - ocl-icd-opencl-dev
+      - fakeroot
+      - xorriso
+      - libxcb-composite0
+      - libxcb-cursor0
+      - libxcb-damage0
+      - libxcb-dpms0
+      - libxcb-dri2-0
+      - libxcb-dri3-0
+      - libxcb-ewmh2
+      - libxcb-glx0
+      - libxcb-keysyms1
+      - libxcb-randr0
+      - libxcb-record0
+      - libxcb-render0
+      - libxcb-res0
+      - libxcb-screensaver0
+      - libxcb-shape0
+      - libxcb-shm0
+      - libxcb-sync1
+      - libxcb-util1
+      - libxcb-xf86dri0
+      - libxcb-xfixes0
+      - libxcb-xinerama0
+      - libxcb-xinput0
+      - libxcb-xkb1
+      - libxcb-xtest0
+      - libxcb-xv0
+      - libxcb-xvmc0
+
+  - name: make-resolve-script-executable
+    type: shell
+    description: Make DaVinci Resolve helper script executable
+    commands:
+      - chmod +x /usr/local/bin/prepare-davinci-resolve
 
   - name: set-image-name-abroot
     type: includes
@@ -97,3 +133,8 @@ stages:
       - rm -rf /tmp/*
       - rm -rf /var/tmp/*
       - rm -rf /sources
+
+# This final stage is REQUIRED for the Containerfile to be generated properly
+- id: vanilla-os-desktop
+  base: scratch
+  from: build
