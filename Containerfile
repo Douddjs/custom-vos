@@ -3,20 +3,12 @@ FROM ghcr.io/vanilla-os/desktop:main
 # Copy all custom files from includes.container to the root filesystem
 COPY includes.container/ /
 
-# Update font cache and compile schemas
+# Run necessary commands
 RUN fc-cache -fv && \
-    glib-compile-schemas /usr/share/glib-2.0/schemas/
-
-# Enable snapd services
-RUN systemctl enable snapd.service && \
-    systemctl enable snapd.socket
-
-# Make DaVinci Resolve helper script executable
-RUN chmod +x /usr/local/bin/prepare-davinci-resolve
-
-# Cleanup
-RUN apt-get autoremove -y && \
+    glib-compile-schemas /usr/share/glib-2.0/schemas/ && \
+    apt-get update && \
+    apt-get install -y snapd gnome-software-plugin-snap && \
+    systemctl enable snapd.service && \
+    systemctl enable snapd.socket && \
     apt-get clean && \
-    rm -rf /tmp/* && \
-    rm -rf /var/tmp/* && \
-    rm -rf /sources
+    rm -rf /tmp/* /var/tmp/* /sources
