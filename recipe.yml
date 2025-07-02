@@ -42,29 +42,26 @@ stages:
       # - https://raw.githubusercontent.com/Vanilla-OS/dev-image/main/modules/05-go.yml # Sample full URL remote module
 
 
-	- name: system-customizations
-		type: shell
-		description: Update font cache and compile schemas
-		commands:
-			- fc-cache -fv
-			- glib-compile-schemas /usr/share/glib-2.0/schemas/
+  - name: system-customizations
+    type: shell
+    description: Update font cache and compile schemas
+    commands:
+      - fc-cache -fv
+      - glib-compile-schemas /usr/share/glib-2.0/schemas/
 
+  - name: install-snapd
+    type: apt
+    description: Install snapd and Snap Store
+    packages:
+      - snapd
+      - gnome-software-plugin-snap
 
-	- name: install-snapd
-	  type: apt
-	  description: Install snapd and Snap Store
-	  packages:
-			- snapd
-			- gnome-software-plugin-snap
-
-	- name: enable-snapd
-		type: shell
-		description: Enable snapd service
-		commands:
-			- systemctl enable snapd.service
-			- systemctl enable snapd.socket
-
-
+  - name: enable-snapd
+    type: shell
+    description: Enable snapd service
+    commands:
+      - systemctl enable snapd.service
+      - systemctl enable snapd.socket
 
   # Put your custom actions above this comment
 
