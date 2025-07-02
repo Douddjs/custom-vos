@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Vanilla Kinetic Default</name>
+    <filename>/usr/share/backgrounds/vanilla-kinetic-extras/vanilla-default.svg</filename>
+    <filename-dark>/usr/share/backgrounds/vanilla-kinetic-extras/vanilla-dark.svg</filename-dark>
+    <options>zoom</options>
+    <shade_type>solid</shade_type>
+    <pcolor>#3071AE</pcolor>
+    <scolor>#000000</scolor>
+  </wallpaper>
+  <wallpaper deleted="false">
+    <name>Vanilla Kinetic Petals</name>
+    <filename>/usr/share/backgrounds/vanilla-kinetic-extras/petals_light.webp</filename>
+    <filename-dark>/usr/share/backgrounds/vanilla-kinetic-extras/petals_dark.webp</filename-dark>
+    <options>zoom</options>
+    <shade_type>solid</shade_type>
+    <pcolor>#3071AE</pcolor>
+    <scolor>#000000</scolor>
+  </wallpaper>
+</wallpapers>
+

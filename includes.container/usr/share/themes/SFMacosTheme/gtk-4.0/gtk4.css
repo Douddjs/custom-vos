@@ -1,0 +1,111 @@
+/* ~/.config/gtk-4.0/gtk.css */
+
+button.titlebutton,
+windowcontrols > button {
+  color: transparent;
+  min-width: 16px;
+  min-height: 16px;
+  -gtk-icon-size: 16px;
+}
+
+button.titlebutton:backdrop {
+  opacity: 0.5;
+}
+
+windowcontrols > button {
+  border-radius: 100%;
+  padding: 0;
+  margin: 0 3px;
+}
+
+windowcontrols > button > image {
+  padding: 0;
+}
+
+.titlebar .right {
+  margin-right: 8px;
+}
+
+.titlebar .left {
+  margin-left: 8px;
+}
+
+windowcontrols.end {
+  margin-right: 8px;
+}
+
+windowcontrols.start {
+  margin-left: 8px;
+}
+
+/* Close button */
+windowcontrols > button.close {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/1-close-1-normal.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+windowcontrols > button.close:hover,
+windowcontrols > button.close:hover:backdrop {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/2-close-2-hover.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+windowcontrols > button.close:active,
+windowcontrols > button.close:active:backdrop {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/2-close-3-press.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+/* Maximize button */
+windowcontrols > button.maximize {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/3-maximize-1-normal.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+windowcontrols > button.maximize:hover,
+windowcontrols > button.maximize:hover:backdrop {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/3-maximize-2-hover.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+windowcontrols > button.maximize:active,
+windowcontrols > button.maximize:active:backdrop {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/3-maximize-3-press.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+/* Minimize button */
+windowcontrols > button.minimize {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/2-minimize-1-normal.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+windowcontrols > button.minimize:hover,
+windowcontrols > button.minimize:hover:backdrop {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/2-minimize-2-hover.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+windowcontrols > button.minimize:active,
+windowcontrols > button.minimize:active:backdrop {
+  background-image: url("/home/doudd/Documents/UI Configs/macos-traffic-light-buttons/2-minimize-3-press.svg");
+  background-position: center;
+  background-size: contain;
+}
+
+/* Backdrop state (inactive windows) */
+windowcontrols > button.close:backdrop,
+windowcontrols > button.maximize:backdrop,
+windowcontrols > button.minimize:backdrop {
+  background-color: #787878; /* Optional: a subtle gray for inactive buttons */
+  background-image: none;
+}
+
