@@ -3,14 +3,14 @@ FROM ghcr.io/vanilla-os/desktop:main
 # Copy all custom files from includes.container to the root filesystem
 COPY includes.container/ /
 
-# Update package lists
-RUN apt-get update
+# Update package lists using lpkg
+RUN lpkg update
 
-# Install Snapd and Snap Store
-RUN apt-get install -y snapd gnome-software-plugin-snap
+# Install Snapd and Snap Store using lpkg
+RUN lpkg install -y snapd gnome-software-plugin-snap
 
-# Install DaVinci Resolve common dependencies (excluding libssl1.1 for now)
-RUN apt-get install -y \
+# Install DaVinci Resolve common dependencies using lpkg
+RUN lpkg install -y \
     fakeroot \
     xorriso \
     libxcb-composite0 \
@@ -54,8 +54,8 @@ RUN if [ -f /usr/local/bin/prepare-davinci-resolve ]; then \
     fi
 
 # Cleanup
-RUN apt-get autoremove -y && \
-    apt-get clean && \
+RUN lpkg autoremove -y && \
+    lpkg clean && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf /sources
