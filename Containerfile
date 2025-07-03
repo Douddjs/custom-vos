@@ -4,7 +4,8 @@ FROM ghcr.io/vanilla-os/desktop:main
 COPY includes.container/ /
 
 # Unlock lpkg and update package lists
-RUN lpkg --unlock && lpkg update
+RUN lpkg --unlock
+RUN lpkg update
 
 # Install Snapd and Snap Store using lpkg
 RUN lpkg install -y snapd gnome-software-plugin-snap
