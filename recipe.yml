@@ -1,3 +1,4 @@
+# Fully Corrected recipe.yml (v2)
 name: douddjs/custom-vos
 id: douddjs/custom-vos
 stages:
@@ -9,7 +10,6 @@ stages:
   args:
     DEBIAN_FRONTEND: noninteractive
   
-  # Commands to run first before building the modules
   runs:
     commands:
       - echo 'APT::Install-Recommends "1";' > /etc/apt/apt.conf.d/01norecommends
@@ -18,32 +18,24 @@ stages:
   - name: init-setup
     type: shell
     commands:
-    - lpkg --unlock
-    - apt-get update
+      - lpkg --unlock
+      - apt-get update
 
-  # Custom modules for fonts, themes, and other customizations
   - name: example-packages
     type: apt
-    source:
-      packages:
+    packages:
       - vim
 
   - name: example-commands
     type: shell
     commands:
-    - echo Example output
+      # <<< FIX: Indentation corrected as you pointed out
+      - echo Example output
 
   - name: example-modules
     type: includes
     includes:
       - modules/50-install-debs.yml
-
-  - name: system-customizations
-    type: shell
-    description: Update font cache and compile schemas
-    commands:
-      - fc-cache -fv
-      - glib-compile-schemas /usr/share/glib-2.0/schemas/
 
   - name: install-snapd
     type: apt
@@ -59,7 +51,6 @@ stages:
       - systemctl enable snapd.service
       - systemctl enable snapd.socket
 
-  # DaVinci Resolve dependencies
   - name: davinci-resolve-deps
     type: apt
     description: Install DaVinci Resolve dependencies
@@ -101,6 +92,28 @@ stages:
     commands:
       - chmod +x /usr/local/bin/prepare-davinci-resolve
 
+  - name: remove-prev-fsguard
+    type: shell
+    commands:
+      - rm -rf /FsGuard
+      - rm -f ./minisign.pub ./minisign.key
+      - chmod +x /usr/sbin/init
+
+  - name: fsguard
+    type: fsguard
+    CustomFsGuard: false
+    FsGuardLocation: "/usr/sbin/FsGuard"
+    GenerateKey: true
+    FilelistPaths:
+      - "/usr/bin"
+  
+  - name: system-customizations
+    type: shell
+    description: Update font cache and compile schemas
+    commands:
+      - fc-cache -fv
+      - glib-compile-schemas /usr/share/glib-2.0/schemas/
+
   - name: set-image-name-abroot
     type: includes
     includes:
@@ -109,23 +122,9 @@ stages:
   - name: cleanup
     type: shell
     commands:
-    - apt-get autoremove -y
-    - apt-get clean
-    - lpkg --lock
-
-  - name: fsguard
-    type: fsguard
-    CustomFsGuard: false
-    FsGuardLocation: "/usr/sbin/FsGuard"
-    GenerateKey: true
-    FilelistPaths: ["/usr/bin"]
-    modules:
-      - name: remove-prev-fsguard
-        type: shell
-        commands:
-          - rm -rf /FsGuard
-          - rm -f ./minisign.pub ./minisign.key
-          - chmod +x /usr/sbin/init
+      - apt-get autoremove -y
+      - apt-get clean
+      - lpkg --lock
 
   - name: cleanup2
     type: shell
@@ -134,7 +133,6 @@ stages:
       - rm -rf /var/tmp/*
       - rm -rf /sources
 
-# This final stage is REQUIRED for the Containerfile to be generated properly
 - id: vanilla-os-desktop
   base: scratch
   from: build
