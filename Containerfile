@@ -5,16 +5,42 @@ COPY includes.container/ /
 
 # Update and install packages directly
 RUN apt-get update && \
-    apt-get install -y snapd gnome-software-plugin-snap && \
-    # Install DaVinci Resolve dependencies
-    apt-get install -y libssl1.1 ocl-icd-opencl-dev fakeroot xorriso \
-    libxcb-composite0 libxcb-cursor0 libxcb-damage0 libxcb-dpms0 \
-    libxcb-dri2-0 libxcb-dri3-0 libxcb-ewmh2 libxcb-glx0 \
-    libxcb-keysyms1 libxcb-randr0 libxcb-record0 libxcb-render0 \
-    libxcb-res0 libxcb-screensaver0 libxcb-shape0 libxcb-shm0 \
-    libxcb-sync1 libxcb-util1 libxcb-xf86dri0 libxcb-xfixes0 \
-    libxcb-xinerama0 libxcb-xinput0 libxcb-xkb1 libxcb-xtest0 \
-    libxcb-xv0 libxcb-xvmc0
+    apt-get install -y \
+    snapd \
+    gnome-software-plugin-snap \
+    fakeroot \
+    xorriso \
+    libxcb-composite0 \
+    libxcb-cursor0 \
+    libxcb-damage0 \
+    libxcb-dpms0 \
+    libxcb-dri2-0 \
+    libxcb-dri3-0 \
+    libxcb-ewmh2 \
+    libxcb-glx0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-record0 \
+    libxcb-render0 \
+    libxcb-res0 \
+    libxcb-screensaver0 \
+    libxcb-shape0 \
+    libxcb-shm0 \
+    libxcb-sync1 \
+    libxcb-util1 \
+    libxcb-xf86dri0 \
+    libxcb-xfixes0 \
+    libxcb-xinerama0 \
+    libxcb-xinput0 \
+    libxcb-xkb1 \
+    libxcb-xtest0 \
+    libxcb-xv0 \
+    libxcb-xvmc0 && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/* && \
+    rm -rf /sources
 
 # Update font cache and compile schemas
 RUN fc-cache -fv && \
@@ -28,10 +54,3 @@ RUN systemctl enable snapd.service && \
 RUN if [ -f /usr/local/bin/prepare-davinci-resolve ]; then \
     chmod +x /usr/local/bin/prepare-davinci-resolve; \
     fi
-
-# Cleanup
-RUN apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /tmp/* && \
-    rm -rf /var/tmp/* && \
-    rm -rf /sources
