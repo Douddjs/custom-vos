@@ -3,15 +3,12 @@ FROM ghcr.io/vanilla-os/desktop:main
 # Copy all custom files from includes.container to the root filesystem
 COPY includes.container/ /
 
-# Unlock lpkg and update package lists
-RUN lpkg --unlock
-RUN lpkg update
-
-# Install Snapd and Snap Store using lpkg
-RUN lpkg install -y snapd gnome-software-plugin-snap
-
-# Install DaVinci Resolve common dependencies using lpkg
-RUN lpkg install -y \
+# Unlock lpkg and update package lists, then install packages
+RUN DEBIAN_FRONTEND=noninteractive lpkg --unlock && \
+    DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    snapd \
+    gnome-software-plugin-snap \
     fakeroot \
     xorriso \
     libxcb-composite0 \
@@ -39,7 +36,12 @@ RUN lpkg install -y \
     libxcb-xkb1 \
     libxcb-xtest0 \
     libxcb-xv0 \
-    libxcb-xvmc0
+    libxcb-xvmc0 && \
+    DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get clean && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/* && \
+    rm -rf /sources
 
 # Update font cache and compile schemas
 RUN fc-cache -fv && \
@@ -53,10 +55,3 @@ RUN systemctl enable snapd.service && \
 RUN if [ -f /usr/local/bin/prepare-davinci-resolve ]; then \
     chmod +x /usr/local/bin/prepare-davinci-resolve; \
     fi
-
-# Cleanup
-RUN lpkg autoremove -y && \
-    lpkg clean && \
-    rm -rf /tmp/* && \
-    rm -rf /var/tmp/* && \
-    rm -rf /sources
