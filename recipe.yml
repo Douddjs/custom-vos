@@ -1,4 +1,4 @@
-name: Adhamz Custom VanillaOS with Custom Fonts
+name: douddjs/custom-vos
 id: douddjs/custom-vos
 stages:
 - id: build
