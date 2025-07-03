@@ -123,8 +123,8 @@ stages:
       - name: remove-prev-fsguard
         type: shell
         commands:
-          - rm -rf /FsGuard 
-          - rm -f ./minisign.pub ./minisign.key 
+          - rm -rf /FsGuard
+          - rm -f ./minisign.pub ./minisign.key
           - chmod +x /usr/sbin/init
 
   - name: cleanup2
@@ -134,7 +134,7 @@ stages:
       - rm -rf /var/tmp/*
       - rm -rf /sources
 
-# # This final stage is REQUIRED for the Containerfile to be generated properly
-# - id: vanilla-os-desktop
-#   base: scratch
-#   from: build
+# This final stage is REQUIRED for the Containerfile to be generated properly
+- id: vanilla-os-desktop
+  base: scratch
+  from: build
