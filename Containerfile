@@ -3,8 +3,8 @@ FROM ghcr.io/vanilla-os/desktop:main
 # Copy all custom files from includes.container to the root filesystem
 COPY includes.container/ /
 
-# Update package lists using lpkg
-RUN lpkg update
+# Unlock lpkg and update package lists
+RUN lpkg --unlock && lpkg update
 
 # Install Snapd and Snap Store using lpkg
 RUN lpkg install -y snapd gnome-software-plugin-snap
